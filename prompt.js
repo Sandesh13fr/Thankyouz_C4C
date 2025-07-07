@@ -2,7 +2,7 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+const model = genAI.getGenerativeModel({ model: 'chat-bison-001' });
 
 async function generateThankYou({ name, amount, cause, region }) {
   const prompt = `
