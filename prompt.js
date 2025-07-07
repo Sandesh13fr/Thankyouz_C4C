@@ -1,36 +1,31 @@
-// prompt.js (OpenRouter)
-const { Configuration, OpenAIApi } = require('openai');
+// prompt.js (OpenRouter + OpenAI SDK v4)
 require('dotenv').config();
+const OpenAI = require('openai');
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
-  basePath: 'https://openrouter.ai/api/v1',
+  baseURL: 'https://openrouter.ai/api/v1',
 });
 
-const openai = new OpenAIApi(configuration);
-
-// You can choose any supported model like `mistralai/mixtral-8x7b` or `openai/gpt-3.5-turbo`
-const MODEL = "openai/gpt-4"; // or "openai/gpt-4", "anthropic/claude-3-opus", etc.
+// Choose your model here
+const MODEL = 'openai/gpt-4'; // You can change to gpt-4 or claude as needed
 
 async function generateThankYou({ name, amount, cause, region }) {
   const prompt = `
-  Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
-  The message should reflect Indian values like seva and compassion, and be culturally warm for someone from ${region}.
-  Keep it concise and under 150 words.
+    Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
+    The message should reflect Indian values like seva and compassion, and be culturally warm for someone from ${region}.
+    Keep it under 150 words.
   `;
 
-  const completion = await openai.createChatCompletion({
+  const response = await openai.chat.completions.create({
     model: MODEL,
     messages: [
-      {
-        role: "user",
-        content: prompt
-      }
+      { role: 'user', content: prompt }
     ],
     temperature: 0.8
   });
 
-  return completion.data.choices[0].message.content.trim();
+  return response.choices[0].message.content.trim();
 }
 
 module.exports = generateThankYou;
