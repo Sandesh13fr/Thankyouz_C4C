@@ -33,7 +33,8 @@ Format the output as visually appealing HTML, using appropriate headings, colors
 
     if (response.ok) {
       const data = await response.json();
-      return data.choices[0].message.content.trim();
+      const message = data.choices[0].message.content.trim();
+      return `<p>${message.replace(/\n/g, '</p><p>')}</p>`; // Wrap response in HTML tags
     } else {
       const errorData = await response.text();
       console.log("OpenRouter API failed:", response.status, errorData);
