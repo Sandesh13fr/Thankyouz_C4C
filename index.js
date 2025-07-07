@@ -20,6 +20,8 @@ app.post('/webhook', async (req, res) => {
   try {
     const message = await generateThankYou(donation);
 
+    console.log('📧 Email content source:', message.includes('<p>') ? 'LLM-generated' : 'Fallback template');
+
     await sendEmail({
       to: donation.email || process.env.TEST_EMAIL,
       subject: `Thank You, ${donation.name}!`,

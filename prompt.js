@@ -1,10 +1,10 @@
 // prompt.js (Fixed version)
-require('dotenv').config();
+require("dotenv").config();
 
 async function generateThankYou({ name, amount, cause, region }) {
   // Try OpenRouter API first
   const prompt = `Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
-Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 150 words.
+Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 1000 words.
 
 Guidelines:
 - Begin with a regional greeting that resonates with the recipient's background
@@ -13,73 +13,72 @@ Guidelines:
 - Use warm, inclusive language that emphasizes community and collective progress
 - Close with a culturally familiar sign-off like "Dhanyavaad" or "With heartfelt thanks"
 
-Please generate a personalized thank you message following these guidelines.`;
+Format the output as visually appealing HTML, using appropriate headings, colors, and spacing to make the letter look beautiful and easy to read.`;
 
   try {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'HTTP-Referer': process.env.OPENROUTER_REFERER,
-        'X-Title': 'ThankYouz C4C',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'openai/gpt-3.5-turbo',
-        messages: [
-          { role: 'user', content: prompt }
-        ],
-        temperature: 0.8
-      })
-    });
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+    'HTTP-Referer': process.env.OPENROUTER_REFERER,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    model: 'openai/gpt-4o',
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.8
+  })
+});
+
 
     if (response.ok) {
       const data = await response.json();
       return data.choices[0].message.content.trim();
     } else {
-      console.log('OpenRouter API failed, using fallback template');
+      const errorData = await response.text();
+      console.log("OpenRouter API failed:", response.status, errorData);
       return generateFallbackMessage({ name, amount, cause, region });
     }
   } catch (error) {
-    console.log('OpenRouter API error, using fallback template:', error.message);
+    console.log(
+      "OpenRouter API error, using fallback template:",
+      error.message
+    );
     return generateFallbackMessage({ name, amount, cause, region });
   }
 }
 
 function generateFallbackMessage({ name, amount, cause, region }) {
   const templates = [
-    `Dear ${name},
+    `<p>Dear <b>${name}</b>,</p>
 
-Namaste! 🙏
+    <p>Namaste! 🙏</p>
 
-We are deeply grateful for your generous donation of ₹${amount} towards ${cause}. Your kindness embodies the spirit of seva and compassion that makes our community stronger.
+    <p>We are deeply grateful for your generous donation of <b>₹${amount}</b> towards <b>${cause}</b>. Your kindness embodies the spirit of <b>seva</b> and compassion that makes our community stronger.</p>
 
-From ${region}, your support reaches far and wide, touching lives and bringing hope to those in need. Your contribution is not just a donation—it's a blessing that will create lasting impact.
+    <p>From <b>${region}</b>, your support reaches far and wide, touching lives and bringing hope to those in need. Your contribution is not just a donation—it's a blessing that will create lasting impact.</p>
 
-With heartfelt gratitude and warm regards,
-ThankYouz Team`,
-    
-    `Pranaam ${name}! 🙏
+    <p>With heartfelt gratitude and warm regards,<br><b>ThankYouz Team</b></p>`,
 
-Your beautiful gesture of donating ₹${amount} for ${cause} has filled our hearts with joy and gratitude. The values of daan and seva that you've shown are truly inspiring.
+    `<p>Pranaam <b>${name}</b>! 🙏</p>
 
-People like you from ${region} remind us why we believe in the power of collective kindness. Your support will make a real difference in the lives of those we serve.
+    <p>Your beautiful gesture of donating <b>₹${amount}</b> for <b>${cause}</b> has filled our hearts with joy and gratitude. The values of <b>daan</b> and <b>seva</b> that you've shown are truly inspiring.</p>
 
-May this act of generosity bring you abundant blessings!
+    <p>People like you from <b>${region}</b> remind us why we believe in the power of collective kindness. Your support will make a real difference in the lives of those we serve.</p>
 
-With deepest appreciation,
-ThankYouz Team`,
-    
-    `Dear ${name},
+    <p>May this act of generosity bring you abundant blessings!</p>
 
-Your contribution of ₹${amount} towards ${cause} is a shining example of the beautiful Indian tradition of helping others. We are touched by your generosity and commitment to making a positive change.
+    <p>With deepest appreciation,<br><b>ThankYouz Team</b></p>`,
 
-From ${region} to everywhere our work reaches, your kindness creates ripples of hope and healing. Thank you for being a beacon of compassion in our community.
+    `<p>Dear <b>${name}</b>,</p>
 
-With gratitude and warm wishes,
-ThankYouz Team`
+    <p>Your contribution of <b>₹${amount}</b> towards <b>${cause}</b> is a shining example of the beautiful Indian tradition of helping others. We are touched by your generosity and commitment to making a positive change.</p>
+
+    <p>From <b>${region}</b> to everywhere our work reaches, your kindness creates ripples of hope and healing. Thank you for being a beacon of compassion in our community.</p>
+
+    <p>With gratitude and warm wishes,<br><b>ThankYouz Team</b></p>`,
   ];
-  
+
   // Return a random template
   return templates[Math.floor(Math.random() * templates.length)];
 }
