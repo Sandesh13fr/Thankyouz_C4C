@@ -14,8 +14,19 @@
   "license": "ISC",
   "author": "",
   "type": "commonjs",
+<<<<<<< HEAD
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+  "bugs": {
+    "url": "https://github.com/Sandesh13fr/Thankyouz_C4C/issues"
+  },
+  "homepage": "https://github.com/Sandesh13fr/Thankyouz_C4C#readme",
+  "dependencies": {
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.4"
+>>>>>>> b51956c2ee8f87450093f6e4968a86855921c256
   }
 }
