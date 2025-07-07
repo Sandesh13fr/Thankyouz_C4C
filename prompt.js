@@ -3,13 +3,8 @@ require("dotenv").config();
 
 async function generateThankYou({ name, amount, cause, region }) {
   // Try OpenRouter API first
-<<<<<<< HEAD
-  const prompt = `Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
-Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 150 words.
-=======
   const prompt = `Write a heartfelt thank-you letter in English to ${name}, who donated ₹${amount} for ${cause}.
 Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 1000 words.
->>>>>>> eb876be3afab463fe1d258a5dac1011eecd70bb2
 
 Guidelines:
 - Begin with a regional greeting that resonates with the recipient's background
@@ -18,7 +13,7 @@ Guidelines:
 - Use warm, inclusive language that emphasizes community and collective progress
 - Close with a culturally familiar sign-off like "Dhanyavaad" or "With heartfelt thanks"
 
-**Format the output as visually appealing HTML, and include the image from this URL/path at the top: [YOUR_IMAGE_URL_OR_PATH].**
+**Format the output as visually appealing HTML, and include the image from this URL/path at the top: https://iili.io/F0Tf3YP.jpg.**
 `;
 
   try {
@@ -40,8 +35,9 @@ Guidelines:
     if (response.ok) {
       const data = await response.json();
       const message = data.choices[0].message.content.trim();
-      const formattedMessage = `<p>${message.replace(/\n+/g, '</p><p>').trim()}</p>`; // Remove excessive line breaks and wrap in HTML tags
-      return formattedMessage;
+      const formattedMessage = `<p>${message.replace(/\n+/g, '</p><p>').trim()}</p>`;
+      const imageHTML = '<img src="https://iili.io/F0Tf3YP.jpg" alt="Thank You" style="width:100%; max-width:600px; margin-top:20px;" />';
+      return `${formattedMessage}${imageHTML}`;
     } else {
       const errorData = await response.text();
       console.log("OpenRouter API failed:", response.status, errorData);
