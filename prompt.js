@@ -13,7 +13,7 @@ Guidelines:
 - Use warm, inclusive language that emphasizes community and collective progress
 - Close with a culturally familiar sign-off like "Dhanyavaad" or "With heartfelt thanks"
 
-**Format the output as visually appealing HTML, and include the image from this URL/path at the top: [YOUR_IMAGE_URL_OR_PATH].**
+**Format the output as visually appealing HTML, and include the image from this URL/path at the center top: https://iili.io/F0Tf3YP.jpg.**
 `;
 
   try {
@@ -34,10 +34,16 @@ Guidelines:
 
     if (response.ok) {
       const data = await response.json();
-      const message = data.choices[0].message.content.trim();
-      const formattedMessage = `<p>${message.replace(/\n+/g, '</p><p>').trim()}</p>`; // Remove excessive line breaks and wrap in HTML tags
+      let message = data.choices[0].message.content.trim();
+      // Remove ```html and ``` markers if present
+      message = message.replace(/^```html\s*/i, '').replace(/```$/i, '').trim();
+      // Add centered image at the top
+      const imageHtml = `<div style="text-align:center;"><img src="https://iili.io/F0Tf3YP.jpg" alt="Thank You" style="max-width:300px; margin-bottom:20px;"/></div>`;
+      // Remove any duplicate image tags from the AI output
+      message = message.replace(/<img[^>]*>/gi, '');
+      const formattedMessage = `${imageHtml}<p>${message.replace(/\n+/g, '</p><p>').trim()}</p>`;
       return formattedMessage;
-    } else {
+    } else { 
       const errorData = await response.text();
       console.log("OpenRouter API failed:", response.status, errorData);
       return generateFallbackMessage({ name, amount, cause, region });
