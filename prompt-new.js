@@ -48,38 +48,35 @@ Please generate a personalized thank you message following these guidelines.`;
 
 function generateFallbackMessage({ name, amount, cause, region }) {
   const templates = [
-    `Dear ${name},
+    `<p>Dear <b>${name}</b>,</p>
 
-Namaste! 🙏
+    <p>Namaste! 🙏</p>
 
-We are deeply grateful for your generous donation of ₹${amount} towards ${cause}. Your kindness embodies the spirit of seva and compassion that makes our community stronger.
+    <p>We are deeply grateful for your generous donation of <b>₹${amount}</b> towards <b>${cause}</b>. Your kindness embodies the spirit of <b>seva</b> and compassion that makes our community stronger.</p>
 
-From ${region}, your support reaches far and wide, touching lives and bringing hope to those in need. Your contribution is not just a donation—it's a blessing that will create lasting impact.
+    <p>From <b>${region}</b>, your support reaches far and wide, touching lives and bringing hope to those in need. Your contribution is not just a donation—it's a blessing that will create lasting impact.</p>
 
-With heartfelt gratitude and warm regards,
-ThankYouz Team`,
-    
-    `Pranaam ${name}! 🙏
+    <p>With heartfelt gratitude and warm regards,<br><b>ThankYouz Team</b></p>`,
 
-Your beautiful gesture of donating ₹${amount} for ${cause} has filled our hearts with joy and gratitude. The values of daan and seva that you've shown are truly inspiring.
+    `<p>Pranaam <b>${name}</b>! 🙏</p>
 
-People like you from ${region} remind us why we believe in the power of collective kindness. Your support will make a real difference in the lives of those we serve.
+    <p>Your beautiful gesture of donating <b>₹${amount}</b> for <b>${cause}</b> has filled our hearts with joy and gratitude. The values of <b>daan</b> and <b>seva</b> that you've shown are truly inspiring.</p>
 
-May this act of generosity bring you abundant blessings!
+    <p>People like you from <b>${region}</b> remind us why we believe in the power of collective kindness. Your support will make a real difference in the lives of those we serve.</p>
 
-With deepest appreciation,
-ThankYouz Team`,
-    
-    `Dear ${name},
+    <p>May this act of generosity bring you abundant blessings!</p>
 
-Your contribution of ₹${amount} towards ${cause} is a shining example of the beautiful Indian tradition of helping others. We are touched by your generosity and commitment to making a positive change.
+    <p>With deepest appreciation,<br><b>ThankYouz Team</b></p>`,
 
-From ${region} to everywhere our work reaches, your kindness creates ripples of hope and healing. Thank you for being a beacon of compassion in our community.
+    `<p>Dear <b>${name}</b>,</p>
 
-With gratitude and warm wishes,
-ThankYouz Team`
+    <p>Your contribution of <b>₹${amount}</b> towards <b>${cause}</b> is a shining example of the beautiful Indian tradition of helping others. We are touched by your generosity and commitment to making a positive change.</p>
+
+    <p>From <b>${region}</b> to everywhere our work reaches, your kindness creates ripples of hope and healing. Thank you for being a beacon of compassion in our community.</p>
+
+    <p>With gratitude and warm wishes,<br><b>ThankYouz Team</b></p>`
   ];
-  
+
   // Return a random template
   return templates[Math.floor(Math.random() * templates.length)];
 }
