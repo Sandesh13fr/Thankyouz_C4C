@@ -3,7 +3,7 @@ require("dotenv").config();
 
 async function generateThankYou({ name, amount, cause, region }) {
   // Try OpenRouter API first
-  const prompt = `Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
+  const prompt = `Write a heartfelt thank-you letter in English to ${name}, who donated ₹${amount} for ${cause}.
 Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 1000 words.
 
 Guidelines:
