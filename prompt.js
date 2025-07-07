@@ -3,8 +3,13 @@ require("dotenv").config();
 
 async function generateThankYou({ name, amount, cause, region }) {
   // Try OpenRouter API first
+<<<<<<< HEAD
   const prompt = `Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
 Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 150 words.
+=======
+  const prompt = `Write a heartfelt thank-you letter in English to ${name}, who donated ₹${amount} for ${cause}.
+Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 1000 words.
+>>>>>>> eb876be3afab463fe1d258a5dac1011eecd70bb2
 
 Guidelines:
 - Begin with a regional greeting that resonates with the recipient's background
@@ -34,7 +39,9 @@ Guidelines:
 
     if (response.ok) {
       const data = await response.json();
-      return data.choices[0].message.content.trim();
+      const message = data.choices[0].message.content.trim();
+      const formattedMessage = `<p>${message.replace(/\n+/g, '</p><p>').trim()}</p>`; // Remove excessive line breaks and wrap in HTML tags
+      return formattedMessage;
     } else {
       const errorData = await response.text();
       console.log("OpenRouter API failed:", response.status, errorData);
