@@ -1,19 +1,36 @@
-// prompt.js
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+// prompt.js (OpenRouter)
+const { Configuration, OpenAIApi } = require('openai');
+require('dotenv').config();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'chat-bison-001' });
+const configuration = new Configuration({
+  apiKey: process.env.OPENROUTER_API_KEY,
+  basePath: 'https://openrouter.ai/api/v1',
+});
+
+const openai = new OpenAIApi(configuration);
+
+// You can choose any supported model like `mistralai/mixtral-8x7b` or `openai/gpt-3.5-turbo`
+const MODEL = "openai/gpt-4"; // or "openai/gpt-4", "anthropic/claude-3-opus", etc.
 
 async function generateThankYou({ name, amount, cause, region }) {
   const prompt = `
   Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
-  The message should be warm, culturally appropriate for someone from ${region}, and reflect Indian values like compassion, seva, and gratitude.
-  Keep it under 150 words.
+  The message should reflect Indian values like seva and compassion, and be culturally warm for someone from ${region}.
+  Keep it concise and under 150 words.
   `;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  return response.text();
+  const completion = await openai.createChatCompletion({
+    model: MODEL,
+    messages: [
+      {
+        role: "user",
+        content: prompt
+      }
+    ],
+    temperature: 0.8
+  });
+
+  return completion.data.choices[0].message.content.trim();
 }
 
 module.exports = generateThankYou;
