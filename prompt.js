@@ -4,7 +4,7 @@ require("dotenv").config();
 async function generateThankYou({ name, amount, cause, region }) {
   // Try OpenRouter API first
   const prompt = `Write a heartfelt thank-you letter to ${name}, who donated ₹${amount} for ${cause}.
-Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 1000 words.
+Make it culturally warm for someone from ${region}, incorporating Indian values like seva (selfless service), gratitude, and community care. Keep the letter under 150 words.
 
 Guidelines:
 - Begin with a regional greeting that resonates with the recipient's background
@@ -13,7 +13,8 @@ Guidelines:
 - Use warm, inclusive language that emphasizes community and collective progress
 - Close with a culturally familiar sign-off like "Dhanyavaad" or "With heartfelt thanks"
 
-Format the output as visually appealing HTML, using appropriate headings, colors, and spacing to make the letter look beautiful and easy to read.`;
+**Format the output as visually appealing HTML, and include the image from this URL/path at the top: [YOUR_IMAGE_URL_OR_PATH].**
+`;
 
   try {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
