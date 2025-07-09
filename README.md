@@ -22,8 +22,6 @@ This project was built during the **Code 4 Compassion Mumbai Hackathon**, with a
 - **Sandesh Prakash Dawkhar**
 - Prasad Kanchar
 - Raj Pramod Chavan
-- Pankaj Oza
-- Ujjwal Shekhar
 
 ---
 
